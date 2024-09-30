@@ -30,15 +30,15 @@ router.get('/', (req, res) => {
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID do usuário
+ *         description: Retorna ID do usuário
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Usuário encontrado
+ *         description: Usuário(estudante) encontrado
  *       404:
- *         description: Usuário não encontrado
+ *         description: Usuário(estudante) não encontrado
  */
 router.get('/:id', (req, res) => {
     const id = req.params.id;
@@ -66,17 +66,17 @@ router.get('/:id', (req, res) => {
  *             type: object
  *             properties:
  *               id:
- *                 type: string
+ *                 type: integer
  *               name:
  *                 type: string
- *               email:
+ *               age:
+ *                  type: integer
+ *               parents:
  *                 type: string
- *               students:
+ *               phone_number:
  *                 type: string
- *               pwd:
+ *               special_needs:
  *                 type: string
- *               level:
- *                 type: integer
  *               status:
  *                 type: string
  *     responses:
@@ -132,26 +132,26 @@ router.post('/', (req, res) => {
  *             type: object
  *             properties:
  *               id:
- *                 type: string
+ *                 type: integer
  *               name:
  *                 type: string
- *               email:
+ *               age:
+ *                  type: integer
+ *               parents:
  *                 type: string
- *               students:
+ *               phone_number:
  *                 type: string
- *               pwd:
+ *               special_needs:
  *                 type: string
- *               level:
- *                 type: integer
  *               status:
  *                 type: string
  *     responses:
  *       200:
- *         description: Usuário substituído com sucesso
+ *         description: Usuário(estdudante) substituído com sucesso
  *       404:
- *         description: Usuário não encontrado
+ *         description: Usuário(estudante) não encontrado
  *       400:
- *         description: Erro na validação do usuário
+ *         description: Erro na validação do usuário(estudante)
  */
 router.put('/:id', (req, res) => {
     const id = req.params.id;
@@ -185,7 +185,7 @@ router.put('/:id', (req, res) => {
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID do usuário
+ *         description: ID do estudante
  *         required: true
  *         schema:
  *           type: string
