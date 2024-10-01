@@ -4,8 +4,16 @@ const usersDB = require('../data/users.json');
 
 /**
  * @swagger
+ * tags:
+ *   name: Users
+ *   description: Endpoints relacionados aos usuários
+ */
+
+/**
+ * @swagger
  * /users:
  *   get:
+ *     tags: [Users]
  *     summary: Retorna todos os usuários
  *     responses:
  *       200:
@@ -25,6 +33,7 @@ router.get('/', (req, res) => {
  * @swagger
  * /users/{id}:
  *   get:
+ *     tags: [Users]
  *     summary: Retorna um usuário específico
  *     parameters:
  *       - name: id
@@ -55,6 +64,7 @@ router.get('/:id', (req, res) => {
  * @swagger
  * /users:
  *   post:
+ *     tags: [Users]
  *     summary: Insere um novo usuário
  *     requestBody:
  *       required: true
@@ -109,6 +119,7 @@ router.post('/', (req, res) => {
  * @swagger
  * /users/{id}:
  *   put:
+ *     tags: [Users]
  *     summary: Substitui um usuário existente
  *     parameters:
  *       - name: id
@@ -173,6 +184,7 @@ router.put('/:id', (req, res) => {
  * @swagger
  * /users/{id}:
  *   delete:
+ *     tags: [Users]
  *     summary: Deleta um usuário existente
  *     parameters:
  *       - name: id

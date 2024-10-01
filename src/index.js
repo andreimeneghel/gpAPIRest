@@ -1,11 +1,10 @@
 const express = require('express');
-const routes = require('./routes')
+const routes = require('./routes'); 
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
 
 app.use(express.json());
-
 
 // Configurações do Swagger
 const swaggerOptions = {
@@ -16,22 +15,22 @@ const swaggerOptions = {
       version: '1.0.0',
       description: 'API para gerenciar entidades de alunos, professores, etc.',
     },
+    tags: [
+      {
+        name: 'Users',
+        description: 'Endpoints relacionados aos usuários'
+      },
+    ],
   },
-  apis: ['./src/routes/*.js'], // Caminho para os arquivos que contém as rotas da API
+  apis: ['./routes/*.js'], // Caminho para os arquivos de rotas
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// Rotas da sua API
-app.get('/', (req, res) => {
-  res.send('API Gestão de Ensino Especial');
-});
+app.use('/users', routes);
 
-// Inicie o servidor
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
-
-app.use('/', routes)
