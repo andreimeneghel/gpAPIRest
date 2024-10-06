@@ -1,6 +1,7 @@
 const express = require('express');
 const routes = require('./routes');
 const appointmentRoutes = require('./routes/appointmentRoutes.js'); 
+const eventRoutes = require('./routes/eventRoutes.js'); 
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
@@ -30,6 +31,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/users', routes);
 app.use('/appointment', appointmentRoutes);
+app.use('/event', eventRoutes);
 
 const PORT = process.env.PORT || 3333;
 
