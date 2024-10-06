@@ -189,4 +189,50 @@ router.put('/:id', (req, res) => {
     return res.json(appointmentDB[agendamentoIndex]);
 });
 
+/**
+ * @swagger
+ * /appointment/{id}:
+ *   delete:
+ *     tags: [Appointment]
+ *     summary: Deleta um agendamento existente
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID do agendamento a ser deletado
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Agendamento deletado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *       404:
+ *         description: Agendamento não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erro:
+ *                   type: string
+ */
+router.delete('/:id', (req, res) => {
+    const id = req.params.id;
+
+    const appointmentIndex = appointmentDB.findIndex(appointment => appointment.id === id);
+
+    if (appointmentIndex === -1) {
+        return res.status(404).json({ "erro": "Agendamento não encontrado" });
+    }
+
+    appointmentDB.splice(appointmentIndex, 1);
+    res.json({ "mensagem": "Agendamento deletado com sucesso." });
+});
+
 module.exports = router;
