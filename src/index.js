@@ -1,12 +1,12 @@
 const express = require('express');
-const routes = require('./routes'); 
+const routes = require('./routes');
+const appointmentRoutes = require('./routes/appointmentRoutes.js'); 
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
 
 app.use(express.json());
 
-// Configurações do Swagger
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -22,13 +22,14 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ['./routes/*.js'], // Caminho para os arquivos de rotas
+  apis: ['./routes/*.js'], 
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/users', routes);
+app.use('/appointment', appointmentRoutes);
 
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
