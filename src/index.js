@@ -16,7 +16,7 @@ const swaggerOptions = {
     info: {
       title: 'API Gestão de Ensino Especial',
       version: '1.0.0',
-      description: 'API para gerenciar entidades de alunos, professores, etc.',
+      description: 'API para gerenciar entidades de alunos, professores, usuários, profissionais, eventos e compromissos',
     },
     tags: [
       {

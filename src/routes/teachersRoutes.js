@@ -4,8 +4,16 @@ const teachersDB = require('../data/teachers.json');
 
 /**
  * @swagger
+ * tags:
+ *   name: Teachers
+ *   description: Gerenciamento de professores
+ */
+
+/**
+ * @swagger
  * /teachers:
  *   get:
+ *     tags: [Teachers]
  *     summary: Retorna todos os usuários
  *     responses:
  *       200:
@@ -26,6 +34,7 @@ router.get('/', (req, res) => {
  * @swagger
  * /teachers/{id}:
  *   get:
+ *     tags: [Teachers]
  *     summary: Retorna um usuário específico
  *     parameters:
  *       - name: id
@@ -57,6 +66,7 @@ router.get('/:id', (req, res) => {
  * @swagger
  * /teachers:
  *   post:
+ *     tags: [Teachers]
  *     summary: Insere um novo usuário
  *     requestBody:
  *       required: true
@@ -113,6 +123,7 @@ router.post('/', (req, res) => {
  * @swagger
  * /teachers/{id}:
  *   put:
+ *     tags: [Teachers]
  *     summary: Substitui um usuário existente
  *     parameters:
  *       - name: id
@@ -175,6 +186,7 @@ router.put('/:id', (req, res) => {
  * @swagger
  * /teachers/{id}:
  *   delete:
+ *     tags: [Teachers]
  *     summary: Deleta um usuário existente
  *     parameters:
  *       - name: id

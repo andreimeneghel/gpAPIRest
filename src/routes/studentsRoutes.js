@@ -2,17 +2,9 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid'); 
-
+const { v4: uuidv4 } = require('uuid');
 const filePath = path.join(__dirname, '../data/students.json');
-let studentsDB;
-
-try {
-    studentsDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-} catch (error) {
-    console.error("Erro ao ler o arquivo students.json:", error);
-    studentsDB = []; // Inicializa como um array vazio se houver erro
-}
+let studentsDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
 /**
  * @swagger
