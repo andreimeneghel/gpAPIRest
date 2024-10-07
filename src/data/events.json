@@ -3,7 +3,19 @@
     "id": "7a6cc1282c5f6ec0235acd2bfa780145aa2a67fd",
     "description": "Palestra bem viver com saúde",
     "comments": "Profissionais de saúde da Unesc",
-    "date": "2023-08-15 16:00:00"
+    "date": "07/10/2024, 19:36:55"
+  },
+  {
+    "id": "e9bb11da-8766-46d4-ad97-4f1af7bb6915",
+    "description": "Palestra bem viver com saúde",
+    "comments": "Profissionais de saúde da Unesc",
+    "date": "07/10/2024, 19:08:46"
+  },
+  {
+    "id": "0bc032d5-1896-4b36-ac32-b45e0bb9f9e3",
+    "description": "Palestra sobre futebol",
+    "comments": "Profissionais do Criciuma EC",
+    "date": "07/10/2024, 19:48:00"
   },
   {
     "id": "30a35ddc-5d23-4a62-add4-0ebdc45ce2d1",
@@ -14,8 +26,8 @@
   {
     "id": "05e8788b-1597-4d23-8c67-aeac30ee2af8",
     "description": "Palestra sobre IA",
-    "comments": "Profissionais de desenvolvimento de ia",
-    "date": "2024-10-07T00:44:17.198Z"
+    "comments": "Profissionais de desenvolvimento de IA do OPENAI",
+    "date": "07/10/2024, 19:49:11"
   },
   {
     "id": "7697d195-74b6-45d7-be0f-13567f3d7d71",
@@ -34,17 +46,5 @@
     "description": "Palestra sobre tech 2",
     "comments": "Profissionais mostram como seguir na carreira tech 2",
     "date": "2024-10-07T00:48:14.681Z"
-  },
-  {
-    "id": "e9bb11da-8766-46d4-ad97-4f1af7bb6915",
-    "description": "Palestra bem viver com saúde",
-    "comments": "Profissionais de saúde da Unesc",
-    "date": "07/10/2024, 19:08:46"
-  },
-  {
-    "id": "6730ab0a-52e3-46f5-bb5e-358f5f02de6e",
-    "description": "Palestra bem viver com saúde",
-    "comments": "Profissionais de saúde da Unesc",
-    "date": "07/10/2024, 19:27:58"
   }
 ]

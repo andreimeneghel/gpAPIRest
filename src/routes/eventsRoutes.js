@@ -2,21 +2,9 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid'); 
-
+const { v4: uuidv4 } = require('uuid');
 const filePath = path.join(__dirname, '../data/events.json');
-let eventsDB = []; 
-
-try {
-    const data = fs.readFileSync(filePath, 'utf8');
-    eventsDB = JSON.parse(data);
-    if (!Array.isArray(eventsDB)) {
-        throw new Error("O conteúdo de events.json não é um array");
-    }
-} catch (error) {
-    console.error("Erro ao ler ou parsear o arquivo events.json:", error);
-    eventsDB = []; 
-}
+let eventsDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
 /**
  * @swagger
@@ -52,7 +40,12 @@ try {
  *                     format: date-time
  */
 router.get('/', (req, res) => {
-    res.json(eventsDB);
+    const sortedEvents = eventsDB.sort((a, b) => {
+        if (a.description.toLowerCase() < b.description.toLowerCase()) return -1;
+        if (a.description.toLowerCase() > b.description.toLowerCase()) return 1;
+        return 0;
+    }); 
+    res.json(sortedEvents);
 });
 
 /**
@@ -108,15 +101,10 @@ router.get('/:id', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               id:
- *                 type: string
  *               description:
  *                 type: string
  *               comments:
  *                 type: string
- *               date:
- *                 type: string
- *                 format: date-time
  *     responses:
  *       200:
  *         description: Evento inserido com sucesso
@@ -124,29 +112,28 @@ router.get('/:id', (req, res) => {
  *         description: Erro na validação do evento
  */
 router.post('/', (req, res) => {
-    const event = req.body;
-    event.id = uuidv4();
+    const eventos = req.body;
+    eventos.id = uuidv4();
 
-    if (!event.date) {
-        event.date = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }); // Formato local
+    if (!eventos.date) {
+        eventos.date = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }); // Formato local
     }
+    if (!eventos.description) return res.status(400).json({ "erro": "Evento precisa ter uma 'description'" });
+    if (!eventos.comments) return res.status(400).json({ "erro": "Evento precisa ter 'comments'" });
 
-    if (!event.description) return res.status(400).json({ "erro": "Evento precisa ter uma 'description'" });
-    if (!event.comments) return res.status(400).json({ "erro": "Evento precisa ter 'comments'" });
-
-    const eventFormatted = {
-        id: event.id,
-        description: event.description,
-        comments: event.comments,
-        date: event.date 
+    const eventoFormatado = {
+        id: eventos.id,
+        description: eventos.description,
+        comments: eventos.comments,
+        date: eventos.date 
     };
 
-    eventsDB.push(eventFormatted);
+    eventsDB.push(eventoFormatado);
     fs.writeFileSync(filePath, JSON.stringify(eventsDB, null, 2), 'utf8');  
     return res.json({ 
         "sucesso": "Evento cadastrado com sucesso", 
-        "id": event.id,
-        "date": event.date 
+        "id": eventos.id,
+        "date": eventos.date 
     });
 });
 
@@ -170,13 +157,12 @@ router.post('/', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
+ *               id:
+ *                 type: string
  *               description:
  *                 type: string
  *               comments:
  *                 type: string
- *               date:
- *                 type: string
- *                 format: date-time
  *     responses:
  *       200:
  *         description: Evento atualizado com sucesso
@@ -187,21 +173,21 @@ router.post('/', (req, res) => {
  */
 router.put('/:id', (req, res) => {
     const id = req.params.id;
-    const updatedEvent = req.body;
-    const eventIndex = eventsDB.findIndex(event => event.id === id);
+    const novoEvento = req.body;
+    const eventoIndex = eventsDB.findIndex(event => event.id === id);
 
-    if (eventIndex === -1) return res.status(404).json({ "erro": "Evento não encontrado" });
+    if (eventoIndex === -1) return res.status(404).json({ "erro": "Evento não encontrado" });
 
-    if (!updatedEvent.date) {
-        updatedEvent.date = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }); // Gera a data atual em formato local
+    if (!novoEvento.date) {
+        novoEvento.date = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }); 
     }
 
-    if (!updatedEvent.description) return res.status(400).json({ "erro": "Evento precisa ter uma 'description'" });
-    if (!updatedEvent.comments) return res.status(400).json({ "erro": "Evento precisa ter 'comments'" });
+    if (!novoEvento.description) return res.status(400).json({ "erro": "Evento precisa ter uma 'description'" });
+    if (!novoEvento.comments) return res.status(400).json({ "erro": "Evento precisa ter 'comments'" });
 
-    eventsDB[eventIndex] = { id, ...updatedEvent };
+    eventsDB[eventoIndex] = { id, ...novoEvento};
     fs.writeFileSync(filePath, JSON.stringify(eventsDB, null, 2), 'utf8');  
-    return res.json(updatedEvent);
+    return res.json(novoEvento);
 });
 
 /**
