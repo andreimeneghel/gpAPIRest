@@ -1,4 +1,6 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
 const router = express.Router();
 const teachersDB = require('../data/teachers.json');
 
@@ -20,14 +22,13 @@ const teachersDB = require('../data/teachers.json');
  *         description: Uma lista de usuários
  */
 router.get('/', (req, res) => {
-    // Retorna todos os professores como um array
     const sortedTeachers = teachersDB.sort((a, b) => {
         if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
         if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
         return 0;
     });
 
-    res.json(sortedTeachers); // Retorna um array de professores
+    res.json(sortedTeachers);
 });
 
 /**
@@ -52,14 +53,13 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     const id = req.params.id;
 
-    // Encontrar o professor pelo ID
     const teacher = teachersDB.find(teacher => teacher.id === id);
 
     if (!teacher) return res.status(404).json({
         "erro": "Usuário não encontrado"
     });
 
-    res.json(teacher); // Retorna um único professor
+    res.json(teacher);
 });
 
 /**
@@ -94,30 +94,29 @@ router.get('/:id', (req, res) => {
  *         description: Erro na validação do usuário
  */
 router.post('/', (req, res) => {
-    const usuario = req.body; // Supondo que req.body é um único objeto
+    const novoteacher = req.body;
+    novoteacher.id = uuidv4();
 
-    // Verifica se o ID já existe
-    const idExists = teachersDB.some(teacher => teacher.id === usuario.id);
-    if (idExists) {
-        return res.status(400).json({ "erro": `O ID ${usuario.id} já está em uso. Escolha um ID diferente.` });
-    }
+    if (!novoteacher.name) return res.status(400).json({ "erro": "Estudante precisa ter um 'name'" });
+    if (!novoteacher.school_disciplines) return res.status(400).json({ "erro": "Estudante precisa ter um 'school_disciplines'" });
+    if (!novoteacher.contact) return res.status(400).json({ "erro": "Estudante precisa ter um 'contact'" });
+    if (!novoteacher.phone_number) return res.status(400).json({ "erro": "Estudante precisa ter um 'phone_number'" });
+    if (!novoteacher.status) return res.status(400).json({ "erro": "Estudante precisa ter um 'status'" });
 
-    // Validações
-    if (!usuario.id) return res.status(400).json({ "erro": "Usuário precisa ter um 'id'" });
-    if (!usuario.name) return res.status(400).json({ "erro": "Usuário precisa ter um 'name'" });
-    if (!usuario.school_disciplines) return res.status(400).json({ "erro": "Usuário precisa ter um 'school_disciplines'" });
-    if (!usuario.contact) return res.status(400).json({ "erro": "Usuário precisa ter 'contact'" });
-    if (!usuario.phone_number) return res.status(400).json({ "erro": "Usuário precisa ter um 'phone_number'" });
-    if (!usuario.status) return res.status(400).json({ "erro": "Usuário precisa ter um 'status'" });
+    const teacherFormatted = {
+        id: novoteacher.id,
+        name: novoteacher.name,
+        age: novoteacher.age,
+        parents: novoteacher.parents,
+        phone: novoteacher.phone,
+        special: novoteacher.special,
+        status: novoteacher.status
+    };
 
-    // Adiciona o usuário ao array de professores
-    teachersDB.push(usuario);
-    
-    // Retorna o usuário adicionado
-    return res.status(201).json(usuario);
+    teachersDB.push(teacherFormatted);
+    fs.writeFileSync(filePath, JSON.stringify(teachersDB, null, 2), 'utf8');  
+    return res.json({ "sucesso": "Estudante cadastrado com sucesso", "id": novoteacher.id });
 });
-
-
 
 /**
  * @swagger
@@ -169,7 +168,6 @@ router.put('/:id', (req, res) => {
         return res.status(404).json({ "erro": "Usuário não encontrado" });
     }
 
-    // Validações
     if (!novoteacher.id) return res.status(400).json({ "erro": "Usuário precisa ter um 'id'" });
     if (!novoteacher.name) return res.status(400).json({ "erro": "Usuário precisa ter um 'name'" });
     if (!novoteacher.school_disciplines) return res.status(400).json({ "erro": "Usuário precisa ter um 'school_disciplines'" });
@@ -177,9 +175,8 @@ router.put('/:id', (req, res) => {
     if (!novoteacher.phone_number) return res.status(400).json({ "erro": "Usuário precisa ter uma 'phone_number'" });
     if (!novoteacher.status) return res.status(400).json({ "erro": "Usuário precisa ter um 'status'" });
 
-    // Atualiza o estudante no array
     teachersDB[teachersIndex] = novoteacher;
-    res.json(novoteacher); // Retorna o professor atualizado
+    res.json(novoteacher);
 });
 
 /**
@@ -208,7 +205,6 @@ router.delete('/:id', (req, res) => {
 
     if (teachersIndex === -1) return res.status(404).json({ "erro": "Usuário não encontrado" });
 
-    // Remove o estudante do array
     teachersDB.splice(teachersIndex, 1);
     res.json({ "mensagem": "Usuário deletado com sucesso." });
 });
