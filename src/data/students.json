@@ -1,5 +1,14 @@
 [
   {
+    "id": "f32057a3-f122-4877-8353-d19a1b4d6103",
+    "name": "bruno",
+    "age": "14",
+    "parents": "mateus e bruna",
+    "phone": "48 9696 1010",
+    "special": "anything",
+    "status": "on"
+  },
+  {
     "id": "0200860b-a875-4942-8d1a-1a894ad50785",
     "name": "Fellipe",
     "age": "22",
@@ -18,17 +27,8 @@
     "status": "off"
   },
   {
-    "id": "5bf8e07c-0422-4bd9-a527-3867ca3922b0",
-    "name": "lucas",
-    "age": "22",
-    "parents": "teste e test1",
-    "phone": "48 9696 5858",
-    "special": "anything",
-    "status": "on"
-  },
-  {
     "id": "1df969ef-8ead-4cd1-913d-7c4d233a0753",
-    "name": "carlos",
+    "name": "josé",
     "age": "22",
     "parents": "mateus e fernanda",
     "phone": "48 9696 5858",

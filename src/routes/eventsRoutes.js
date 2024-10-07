@@ -108,6 +108,8 @@ router.get('/:id', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
+ *               id:
+ *                 type: string
  *               description:
  *                 type: string
  *               comments:
