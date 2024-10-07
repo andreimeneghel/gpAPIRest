@@ -1,63 +1,117 @@
 const express = require('express');
 const router = express.Router();
-const studentsDB = require('../data/students.json');
+const fs = require('fs');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid'); 
+
+const filePath = path.join(__dirname, '../data/students.json');
+let studentsDB;
+
+try {
+    studentsDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+} catch (error) {
+    console.error("Erro ao ler o arquivo students.json:", error);
+    studentsDB = []; // Inicializa como um array vazio se houver erro
+}
+
+/**
+ * @swagger
+ * tags:
+ *   name: Students
+ *   description: Endpoints relacionados aos estudantes.
+ */
 
 /**
  * @swagger
  * /students:
  *   get:
- *     summary: Retorna todos os usuários
+ *     tags: [Students]
+ *     summary: Retorna todos os estudantes, ordenados por nome
  *     responses:
  *       200:
- *         description: Uma lista de usuários
+ *         description: Uma lista de estudantes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *                   age:
+ *                     type: integer
+ *                   parents:
+ *                     type: string
+ *                   phone:
+ *                     type: string
+ *                   special:
+ *                     type: string
+ *                   status:
+ *                     type: string
  */
 router.get('/', (req, res) => {
-    // Retorna todos os estudantes como um array
     const sortedStudents = studentsDB.sort((a, b) => {
         if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
         if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
         return 0;
     });
-
-    res.json(sortedStudents); // Retorna um array de estudantes
+    res.json(sortedStudents);
 });
 
 /**
  * @swagger
  * /students/{id}:
  *   get:
- *     summary: Retorna um usuário específico
+ *     tags: [Students]
+ *     summary: Retorna um estudante específico
  *     parameters:
  *       - name: id
  *         in: path
- *         description: Retorna ID do usuário
+ *         description: ID do estudante a ser retornado
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Usuário(estudante) encontrado
+ *         description: Estudante encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 age:
+ *                   type: integer
+ *                 parents:
+ *                   type: string
+ *                 phone:
+ *                   type: string
+ *                 special:
+ *                   type: string
+ *                 status:
+ *                   type: string
  *       404:
- *         description: Usuário(estudante) não encontrado
+ *         description: Estudante não encontrado
  */
 router.get('/:id', (req, res) => {
     const id = req.params.id;
-
-    // Encontrar o estudante pelo ID
     const student = studentsDB.find(student => student.id === id);
-
-    if (!student) return res.status(404).json({
-        "erro": "Usuário não encontrado"
-    });
-
-    res.json(student); // Retorna um único estudante
+    if (!student) return res.status(404).json({ "erro": "Estudante não encontrado" });
+    res.json(student);
 });
 
 /**
  * @swagger
  * /students:
  *   post:
- *     summary: Insere um novo usuário
+ *     tags: [Students]
+ *     summary: Insere um novo estudante
  *     requestBody:
  *       required: true
  *       content:
@@ -65,62 +119,60 @@ router.get('/:id', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               id:
- *                 type: integer
  *               name:
  *                 type: string
  *               age:
- *                  type: integer
+ *                 type: integer
  *               parents:
  *                 type: string
- *               phone_number:
+ *               phone:
  *                 type: string
- *               special_needs:
+ *               special:
  *                 type: string
  *               status:
  *                 type: string
  *     responses:
  *       200:
- *         description: Usuário inserido com sucesso
+ *         description: Estudante inserido com sucesso
  *       400:
- *         description: Erro na validação do usuário
+ *         description: Erro na validação do estudante
  */
 router.post('/', (req, res) => {
-    const usuario = req.body; // Supondo que req.body é um único objeto
+    const student = req.body;
+    student.id = uuidv4();
 
-    // Verifica se o ID já existe
-    const idExists = studentsDB.some(student => student.id === usuario.id);
-    if (idExists) {
-        return res.status(400).json({ "erro": `O ID ${usuario.id} já está em uso. Escolha um ID diferente.` });
-    }
+    if (!student.name) return res.status(400).json({ "erro": "Estudante precisa ter um 'name'" });
+    if (!student.age) return res.status(400).json({ "erro": "Estudante precisa ter um 'age'" });
+    if (!student.parents) return res.status(400).json({ "erro": "Estudante precisa ter um 'parents'" });
+    if (!student.phone) return res.status(400).json({ "erro": "Estudante precisa ter um 'phone'" });
+    if (!student.special) return res.status(400).json({ "erro": "Estudante precisa ter um 'special'" });
+    if (!student.status) return res.status(400).json({ "erro": "Estudante precisa ter um 'status'" });
 
-    // Validações
-    if (!usuario.id) return res.status(400).json({ "erro": "Usuário precisa ter um 'id'" });
-    if (!usuario.name) return res.status(400).json({ "erro": "Usuário precisa ter um 'name'" });
-    if (!usuario.age) return res.status(400).json({ "erro": "Usuário precisa ter um 'age'" });
-    if (!usuario.parents) return res.status(400).json({ "erro": "Usuário precisa ter 'parents'" });
-    if (!usuario.phone) return res.status(400).json({ "erro": "Usuário precisa ter um 'phone'" });
-    if (!usuario.special) return res.status(400).json({ "erro": "Usuário precisa ter um 'special'" });
-    if (!usuario.status) return res.status(400).json({ "erro": "Usuário precisa ter um 'status'" });
+    const studentFormatted = {
+        id: student.id,
+        name: student.name,
+        age: student.age,
+        parents: student.parents,
+        phone: student.phone,
+        special: student.special,
+        status: student.status
+    };
 
-    // Adiciona o usuário ao array de estudantes
-    studentsDB.push(usuario);
-    
-    // Retorna o usuário adicionado
-    return res.status(201).json(usuario);
+    studentsDB.push(studentFormatted);
+    fs.writeFileSync(filePath, JSON.stringify(studentsDB, null, 2), 'utf8');  
+    return res.json({ "sucesso": "Estudante cadastrado com sucesso", "id": student.id });
 });
-
-
 
 /**
  * @swagger
  * /students/{id}:
  *   put:
- *     summary: Substitui um usuário existente
+ *     tags: [Students]
+ *     summary: Substitui um estudante existente
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID do usuário
+ *         description: ID do estudante a ser substituído
  *         required: true
  *         schema:
  *           type: string
@@ -131,80 +183,73 @@ router.post('/', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               id:
- *                 type: integer
  *               name:
  *                 type: string
  *               age:
- *                  type: integer
+ *                 type: integer
  *               parents:
  *                 type: string
- *               phone_number:
+ *               phone:
  *                 type: string
- *               special_needs:
+ *               special:
  *                 type: string
  *               status:
  *                 type: string
  *     responses:
  *       200:
- *         description: Usuário(estdudante) substituído com sucesso
+ *         description: Estudante substituído com sucesso
  *       404:
- *         description: Usuário(estudante) não encontrado
+ *         description: Estudante não encontrado
  *       400:
- *         description: Erro na validação do usuário(estudante)
+ *         description: Erro na validação do estudante
  */
 router.put('/:id', (req, res) => {
     const id = req.params.id;
-    const novostudent = req.body;
+    const updatedStudent = req.body;
+    const studentIndex = studentsDB.findIndex(student => student.id === id);
 
-    const studentsIndex = studentsDB.findIndex(student => student.id === id);
+    if (studentIndex === -1) return res.status(404).json({ "erro": "Estudante não encontrado" });
 
-    if (studentsIndex === -1) {
-        return res.status(404).json({ "erro": "Usuário não encontrado" });
-    }
+    if (!updatedStudent.name) return res.status(400).json({ "erro": "Estudante precisa ter um 'name'" });
+    if (!updatedStudent.age) return res.status(400).json({ "erro": "Estudante precisa ter um 'age'" });
+    if (!updatedStudent.parents) return res.status(400).json({ "erro": "Estudante precisa ter um 'parents'" });
+    if (!updatedStudent.phone) return res.status(400).json({ "erro": "Estudante precisa ter um 'phone'" });
+    if (!updatedStudent.special) return res.status(400).json({ "erro": "Estudante precisa ter um 'special'" });
+    if (!updatedStudent.status) return res.status(400).json({ "erro": "Estudante precisa ter um 'status'" });
 
-    // Validações
-    if (!novostudent.id) return res.status(400).json({ "erro": "Usuário precisa ter um 'id'" });
-    if (!novostudent.name) return res.status(400).json({ "erro": "Usuário precisa ter um 'name'" });
-    if (!novostudent.age) return res.status(400).json({ "erro": "Usuário precisa ter um 'age'" });
-    if (!novostudent.parents) return res.status(400).json({ "erro": "Usuário precisa ter um 'parents'" });
-    if (!novostudent.phone) return res.status(400).json({ "erro": "Usuário precisa ter uma 'phone_number'" });
-    if (!novostudent.special) return res.status(400).json({ "erro": "Usuário precisa ter um 'special_needs'" });
-    if (!novostudent.status) return res.status(400).json({ "erro": "Usuário precisa ter um 'status'" });
-
-    // Atualiza o estudante no array
-    studentsDB[studentsIndex] = novostudent;
-    res.json(novostudent); // Retorna o estudante atualizado
+    studentsDB[studentIndex] = { id, ...updatedStudent };
+    fs.writeFileSync(filePath, JSON.stringify(studentsDB, null, 2), 'utf8');  
+    return res.json(updatedStudent);
 });
 
 /**
  * @swagger
  * /students/{id}:
  *   delete:
- *     summary: Deleta um usuário existente
+ *     tags: [Students]
+ *     summary: Deleta um estudante existente
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID do estudante
+ *         description: ID do estudante a ser deletado
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Usuário deletado com sucesso
+ *         description: Estudante deletado com sucesso
  *       404:
- *         description: Usuário não encontrado
+ *         description: Estudante não encontrado
  */
 router.delete('/:id', (req, res) => {
     const id = req.params.id;
+    const studentIndex = studentsDB.findIndex(student => student.id === id);
 
-    const studentsIndex = studentsDB.findIndex(student => student.id === id);
+    if (studentIndex === -1) return res.status(404).json({ "erro": "Estudante não encontrado" });
 
-    if (studentsIndex === -1) return res.status(404).json({ "erro": "Usuário não encontrado" });
-
-    // Remove o estudante do array
-    studentsDB.splice(studentsIndex, 1);
-    res.json({ "mensagem": "Usuário deletado com sucesso." });
+    studentsDB.splice(studentIndex, 1);
+    fs.writeFileSync(filePath, JSON.stringify(studentsDB, null, 2), 'utf8');  
+    res.json({ "mensagem": "Estudante deletado com sucesso." });
 });
 
 module.exports = router;

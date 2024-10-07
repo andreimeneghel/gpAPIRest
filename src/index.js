@@ -1,7 +1,8 @@
 const express = require('express');
-const routes = require('./routes');
 const usersRoutes = require('./routes/usersRoutes.js'); 
 const appointmentRoutes = require('./routes/appointmentRoutes.js'); 
+const studentsRoutes = require('./routes/studentsRoutes.js'); 
+const eventsRoutes = require('./routes/eventsRoutes.js'); // Importa as rotas de eventos
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
@@ -21,6 +22,18 @@ const swaggerOptions = {
         name: 'Users',
         description: 'Endpoints relacionados aos usuários'
       },
+      {
+        name: 'Appointments',
+        description: 'Endpoints relacionados aos agendamentos'
+      },
+      {
+        name: 'Students',
+        description: 'Endpoints relacionados aos alunos'
+      },
+      {
+        name: 'Events', // Adiciona a tag de eventos
+        description: 'Endpoints relacionados aos eventos'
+      }
     ],
   },
   apis: ['./routes/*.js'], 
@@ -30,7 +43,9 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/users', usersRoutes);
-app.use('/appointment', appointmentRoutes);
+app.use('/appointments', appointmentRoutes);
+app.use('/students', studentsRoutes);
+app.use('/events', eventsRoutes); // Adiciona a rota de eventos
 
 const PORT = process.env.PORT || 3333;
 
