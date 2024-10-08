@@ -1,14 +1,5 @@
 [
   {
-    "id": "e2f4a1282c5f6ec0235acd2bfa780145aa2b5678",
-    "name": "Carlos Pereira",
-    "email": "carlos.pereira@unesc.net",
-    "user": "carlos.pereira",
-    "pwd": "e2f4a1282c5f6ec0235acd2bfa780145carlos5678",
-    "level": "moderator",
-    "status": "on"
-  },
-  {
     "id": "f3d2b1282c5f6ec0235acd2bfa780145aa2b9012",
     "name": "Juliana Costa",
     "email": "juliana.costa@unesc.net",
@@ -24,6 +15,15 @@
     "user": "maria.silva",
     "pwd": "d1f6c1282c5f6ec0235acd2bfa780145maria1234",
     "level": "user",
+    "status": "on"
+  },
+  {
+    "id": "c7f08210-6bab-4bc3-a728-0a3f8d5a9c96",
+    "name": "Joao",
+    "email": "joao@unesc.net",
+    "user": "joaoo",
+    "pwd": "master",
+    "level": "admin",
     "status": "on"
   }
 ]

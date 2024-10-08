@@ -10,7 +10,7 @@ let teachersDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
  * @swagger
  * tags:
  *   name: Teachers
- *   description: Gerenciamento de professores
+ *   description: Gerenciamento de professores. 
  */
 
 /**

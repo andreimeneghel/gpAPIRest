@@ -10,7 +10,7 @@ let eventsDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
  * @swagger
  * tags:
  *   name: Events
- *   description: Endpoints relacionados aos eventos.
+ *   description: Endpoints relacionados aos eventos. 
  */
 
 /**

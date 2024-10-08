@@ -11,7 +11,7 @@ let appointmentDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
  * @swagger
  * tags:
  *   name: Appointment
- *   description: Endpoints relacionados aos agendamentos.
+ *   description: Endpoints relacionados aos agendamentos. 
  */
 /**
  * @swagger

@@ -22,27 +22,27 @@ const swaggerOptions = {
     tags: [
       {
         name: 'Users',
-        description: 'Endpoints relacionados aos usuários'
+        description: 'Endpoints relacionados aos usuários, Andrei Meneghel'
       },
       {
         name: 'Appointment',
-        description: 'Endpoints relacionados aos agendamentos'
+        description: 'Endpoints relacionados aos agendamentos, Gustavo Bratti'
       },
       {
         name: 'Students',
-        description: 'Endpoints relacionados aos alunos'
+        description: 'Endpoints relacionados aos alunos, Luiz Fellipe Rocha'
       },
       {
         name: 'Events',
-        description: 'Endpoints relacionados aos eventos'
+        description: 'Endpoints relacionados aos eventos, Luiz Fellipe Rocha'
       },
       {
         name: 'Teachers',
-        description: 'Endpoints relacionados aos teachers'
+        description: 'Endpoints relacionados aos teachers, Gabriel Rocha'
       },
       {
         name: 'Professionals',
-        description: 'Endpoints relacionados aos profissionais'
+        description: 'Endpoints relacionados aos profissionais, Lucas Simão'
       }
     ],
   },

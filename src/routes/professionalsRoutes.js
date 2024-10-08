@@ -10,7 +10,7 @@ let professionalDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
  * @swagger
  * tags:
  *   name: Professionals
- *   description: Endpoints relacionados aos profissionais.
+ *   description: Endpoints relacionados aos profissionais. 
  */
 
 /**
