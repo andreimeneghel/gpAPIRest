@@ -144,6 +144,11 @@ router.get('/:id', (req, res) => {
  */
 router.post('/', (req, res) => {
     const usuario = req.body;
+
+    if (usuario.id) {
+        return res.status(400).json({ "erro": "O campo 'id' não deve ser fornecido. Ele é gerado automaticamente." });
+    }
+
     usuario.id = uuidv4();
 
     if (!usuario.name) return res.status(400).json({ "erro": "Usuário precisa ter um 'name'" });
