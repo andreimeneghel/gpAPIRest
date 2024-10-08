@@ -25,7 +25,7 @@ const swaggerOptions = {
         description: 'Endpoints relacionados aos usuários'
       },
       {
-        name: 'Appointments',
+        name: 'Appointment',
         description: 'Endpoints relacionados aos agendamentos'
       },
       {
@@ -53,7 +53,7 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/users', usersRoutes);
-app.use('/appointments', appointmentRoutes);
+app.use('/appointment', appointmentRoutes);
 app.use('/students', studentsRoutes);
 app.use('/events', eventsRoutes); 
 app.use('/teachers', teachersRoutes); 

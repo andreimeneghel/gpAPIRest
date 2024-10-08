@@ -24,8 +24,15 @@ let appointmentDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
  *         description: Uma lista de agendamentos
  */
 router.get('/', (req, res) => {
-    res.json(appointmentDB);
+    const agendamentosOrdenados = appointmentDB.sort((a, b) => {
+        if (a.professional.toLowerCase() < b.professional.toLowerCase()) return -1;
+        if (a.professional.toLowerCase() > b.professional.toLowerCase()) return 1;
+        return 0;
+    });
+    res.json(agendamentosOrdenados);
+
 });
+
 
 /**
  * @swagger
