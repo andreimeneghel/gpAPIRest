@@ -15,6 +15,55 @@ let teachersDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Teacher:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         subject:
+ *           type: string
+ *         email:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     TeacherCreate:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         subject:
+ *           type: string
+ *         email:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     TeacherUpdate:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         subject:
+ *           type: string
+ *         email:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         status:
+ *           type: string
+ */
+
+/**
+ * @swagger
  * /teachers:
  *   get:
  *     tags: [Teachers]

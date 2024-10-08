@@ -15,6 +15,61 @@ let studentsDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Student:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         age:
+ *           type: integer
+ *         parents:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         special:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     StudentCreate:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         age:
+ *           type: integer
+ *         parents:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         special:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     StudentUpdate:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         age:
+ *           type: integer
+ *         parents:
+ *           type: string
+ *         phone:
+ *           type: string
+ *         special:
+ *           type: string
+ *         status:
+ *           type: string
+ */
+
+/**
+ * @swagger
  * /students:
  *   get:
  *     tags: [Students]

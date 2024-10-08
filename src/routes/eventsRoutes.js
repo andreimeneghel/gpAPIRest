@@ -15,6 +15,58 @@ let eventsDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Event:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date-time
+ *         location:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     EventCreate:
+ *       type: object
+ *       properties:
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date-time
+ *         location:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     EventUpdate:
+ *       type: object
+ *       properties:
+ *         title:
+ *           type: string
+ *         description:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date-time
+ *         location:
+ *           type: string
+ *         status:
+ *           type: string
+ */
+
+/**
+ * @swagger
  * /events:
  *   get:
  *     tags: [Events]
