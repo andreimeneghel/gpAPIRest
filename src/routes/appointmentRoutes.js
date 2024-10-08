@@ -70,6 +70,13 @@ router.get('/', (req, res) => {
  *                   type: string
  *       404:
  *         description: Agendamento não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erro:
+ *                   type: string
  */
 router.get('/:id', (req, res) => {
     const id = req.params.id;
@@ -115,9 +122,21 @@ router.get('/:id', (req, res) => {
  *         description: Agendamento inserido com sucesso
  *       400:
  *         description: Erro na validação do agendamento
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erro:
+ *                   type: string
  */
 router.post('/', (req, res) => {
+
     const agendamento = req.body;
+
+    if (agendamento.id) {
+        return res.status(400).json({ "erro": "O campo 'id' não deve ser fornecido. Ele é gerado automaticamente." });
+    }
 
     agendamento.id = uuidv4();
 
@@ -170,14 +189,33 @@ router.post('/', (req, res) => {
  *         description: Agendamento substituído com sucesso
  *       404:
  *         description: Agendamento não encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erro:
+ *                   type: string
  *       400:
  *         description: Erro na validação do agendamento
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 erro:
+ *                   type: string
+ *          
  */
 router.put('/:id', (req, res) => {
     const id = req.params.id;
     const novoAgendamento = req.body;
 
     const agendamentoIndex = appointmentDB.findIndex(appt => appt.id === id);
+
+    if (novoAgendamento.id && novoAgendamento.id !== id) {
+        return res.status(400).json({ "erro": "Não é permitido alterar o ID do agendamento" });
+    }
 
     if (agendamentoIndex === -1) {
         return res.status(404).json({ "erro": "Agendamento não encontrado" });
