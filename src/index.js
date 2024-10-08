@@ -4,6 +4,7 @@ const appointmentRoutes = require('./routes/appointmentRoutes.js');
 const studentsRoutes = require('./routes/studentsRoutes.js'); 
 const eventsRoutes = require('./routes/eventsRoutes.js'); 
 const teachersRoutes = require('./routes/teachersRoutes.js'); 
+const professionalsRoutes = require('./routes/professionalsRoutes.js'); 
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
@@ -38,6 +39,10 @@ const swaggerOptions = {
       {
         name: 'Teachers',
         description: 'Endpoints relacionados aos teachers'
+      },
+      {
+        name: 'Professionals',
+        description: 'Endpoints relacionados aos profissionais'
       }
     ],
   },
@@ -52,6 +57,7 @@ app.use('/appointments', appointmentRoutes);
 app.use('/students', studentsRoutes);
 app.use('/events', eventsRoutes); 
 app.use('/teachers', teachersRoutes); 
+app.use('/professionals', professionalsRoutes); 
 
 const PORT = process.env.PORT || 3333;
 

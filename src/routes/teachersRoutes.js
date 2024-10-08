@@ -1,8 +1,10 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-const fs = require('fs');
 const router = express.Router();
-const teachersDB = require('../data/teachers.json');
+const fs = require('fs');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid');
+const filePath = path.join(__dirname, '../data/teachers.json');
+let teachersDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
 /**
  * @swagger
@@ -106,10 +108,9 @@ router.post('/', (req, res) => {
     const teacherFormatted = {
         id: novoteacher.id,
         name: novoteacher.name,
-        age: novoteacher.age,
-        parents: novoteacher.parents,
-        phone: novoteacher.phone,
-        special: novoteacher.special,
+        school_disciplines: novoteacher.school_disciplines,
+        contact: novoteacher.contact,
+        phone_number: novoteacher.phone_number,
         status: novoteacher.status
     };
 
