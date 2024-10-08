@@ -1,65 +1,29 @@
 [
   {
-    "id": "7a6cc1282c5f6ec0235acd2bfa780145aa2a67fd",
-    "name": "Andre Faria Ruaro",
-    "email": "andre.ruaro@unesc.net",
-    "user": "andre.ruaro",
-    "pwd": "7a6cc1282c5f6ec0235acd2bfa780145aaskem5n",
-    "level": "admin",
+    "id": "e2f4a1282c5f6ec0235acd2bfa780145aa2b5678",
+    "name": "Carlos Pereira",
+    "email": "carlos.pereira@unesc.net",
+    "user": "carlos.pereira",
+    "pwd": "e2f4a1282c5f6ec0235acd2bfa780145carlos5678",
+    "level": "moderator",
     "status": "on"
   },
   {
-    "id": "2f0dbd1e-b0eb-4c4f-875d-911904d2ae0c",
-    "name": "dedei",
-    "email": "dedei@gmail.cm",
-    "user": "dedei",
-    "pwd": "213321",
-    "level": 0,
-    "status": "true"
+    "id": "f3d2b1282c5f6ec0235acd2bfa780145aa2b9012",
+    "name": "Juliana Costa",
+    "email": "juliana.costa@unesc.net",
+    "user": "juliana.costa",
+    "pwd": "f3d2b1282c5f6ec0235acd2bfa780145juliana9012",
+    "level": "user",
+    "status": "off"
   },
   {
-    "id": "1bf310f8-97da-4115-83eb-78c3e90d44a5",
-    "name": "dedei",
-    "email": "dedei@gmail.cm",
-    "user": "dedei",
-    "pwd": "213321",
-    "level": 0,
-    "status": "true"
-  },
-  {
-    "id": "9af258a3-3e7a-4c06-91aa-451f3f81c076",
-    "name": "dedei",
-    "email": "dedei@gmail.cm",
-    "user": "dedei",
-    "pwd": "213321",
-    "level": 0,
-    "status": "true"
-  },
-  {
-    "id": "13523421-1043-4ca3-916d-f1fd35c8c020",
-    "name": "dedei",
-    "email": "dedei@gmail.cm",
-    "user": "dedei",
-    "pwd": "213321",
-    "level": 0,
-    "status": "true"
-  },
-  {
-    "id": "f1b5402a-4f0c-47d1-a96c-1d53a7ae4a9a",
-    "name": "dedei",
-    "email": "dedei@gmail.cm",
-    "user": "dedei",
-    "pwd": "213321",
-    "level": 0,
-    "status": "true"
-  },
-  {
-    "name": "oi",
-    "email": "tio@root.com",
-    "user": "tio",
-    "pwd": "323211",
-    "level": 1,
-    "status": "true",
-    "id": "0a555b3a-e24e-4ac3-beb6-b00e4fe2f0e3"
+    "id": "d1f6c1282c5f6ec0235acd2bfa780145aa2b1234",
+    "name": "Maria Silva",
+    "email": "maria.silva@unesc.net",
+    "user": "maria.silva",
+    "pwd": "d1f6c1282c5f6ec0235acd2bfa780145maria1234",
+    "level": "user",
+    "status": "on"
   }
 ]

@@ -15,6 +15,62 @@ let usersDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         user:
+ *           type: string
+ *         pwd:
+ *           type: string
+ *         level:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     UserCreate:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         user:
+ *           type: string
+ *         pwd:
+ *           type: string
+ *         level:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     UserUpdate:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         user:
+ *           type: string
+ *         pwd:
+ *           type: string
+ *         level:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ */
+
+/**
+ * @swagger
  * /users:
  *   get:
  *     tags: [Users]
@@ -22,6 +78,12 @@ let usersDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
  *     responses:
  *       200:
  *         description: Uma lista de usuários
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
  */
 router.get('/', (req, res) => {
     const sortedUsers = usersDB.sort((a, b) => {
@@ -48,6 +110,10 @@ router.get('/', (req, res) => {
  *     responses:
  *       200:
  *         description: Usuário encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
  *       404:
  *         description: Usuário não encontrado
  */
@@ -69,20 +135,7 @@ router.get('/:id', (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               user:
- *                 type: string
- *               pwd:
- *                 type: string
- *               level:
- *                 type: string
- *               status:
- *                 type: string
+ *             $ref: '#/components/schemas/UserCreate'
  *     responses:
  *       200:
  *         description: Usuário inserido com sucesso
@@ -133,20 +186,7 @@ router.post('/', (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               user:
- *                 type: string
- *               pwd:
- *                 type: string
- *               level:
- *                 type: string
- *               status:
- *                 type: string
+ *             $ref: '#/components/schemas/UserUpdate'
  *     responses:
  *       200:
  *         description: Usuário substituído com sucesso
@@ -161,6 +201,10 @@ router.put('/:id', (req, res) => {
     const usuarioIndex = usersDB.findIndex(user => user.id === id);
     if (usuarioIndex === -1) return res.status(404).json({ "erro": "Usuário não encontrado" });
 
+    if (novoUsuario.id && novoUsuario.id !== id) {
+        return res.status(400).json({ "erro": "Não é permitido alterar o ID do usuário" });
+    }
+
     if (!novoUsuario.name) return res.status(400).json({ "erro": "Usuário precisa ter um 'name'" });
     if (!novoUsuario.email) return res.status(400).json({ "erro": "Usuário precisa ter um 'email'" });
     if (!novoUsuario.user) return res.status(400).json({ "erro": "Usuário precisa ter um 'user'" });
@@ -170,7 +214,7 @@ router.put('/:id', (req, res) => {
 
     usersDB[usuarioIndex] = { id, ...novoUsuario };
     fs.writeFileSync(filePath, JSON.stringify(usersDB, null, 2), 'utf8');
-    return res.json(novoUsuario);
+    return res.json(usersDB[usuarioIndex]);
 });
 
 /**

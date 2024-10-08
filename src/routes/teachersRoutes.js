@@ -18,10 +18,10 @@ let teachersDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
  * /teachers:
  *   get:
  *     tags: [Teachers]
- *     summary: Retorna todos os usuários
+ *     summary: Retorna todos os professores
  *     responses:
  *       200:
- *         description: Uma lista de usuários
+ *         description: Uma lista de professores
  */
 router.get('/', (req, res) => {
     const sortedTeachers = teachersDB.sort((a, b) => {
@@ -38,19 +38,19 @@ router.get('/', (req, res) => {
  * /teachers/{id}:
  *   get:
  *     tags: [Teachers]
- *     summary: Retorna um usuário específico
+ *     summary: Retorna um professor específico
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID do usuário
+ *         description: ID do professor
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Usuário encontrado
+ *         description: Professor encontrado
  *       404:
- *         description: Usuário não encontrado
+ *         description: Professor não encontrado
  */
 router.get('/:id', (req, res) => {
     const id = req.params.id;
@@ -58,7 +58,7 @@ router.get('/:id', (req, res) => {
     const teacher = teachersDB.find(teacher => teacher.id === id);
 
     if (!teacher) return res.status(404).json({
-        "erro": "Usuário não encontrado"
+        "erro": "Professor não encontrado"
     });
 
     res.json(teacher);
@@ -69,7 +69,7 @@ router.get('/:id', (req, res) => {
  * /teachers:
  *   post:
  *     tags: [Teachers]
- *     summary: Insere um novo usuário
+ *     summary: Insere um novo professor
  *     requestBody:
  *       required: true
  *       content:
@@ -91,32 +91,32 @@ router.get('/:id', (req, res) => {
  *                 type: string
  *     responses:
  *       200:
- *         description: Usuário inserido com sucesso
+ *         description: Professor inserido com sucesso
  *       400:
- *         description: Erro na validação do usuário
+ *         description: Erro na validação do professor
  */
 router.post('/', (req, res) => {
-    const novoteacher = req.body;
-    novoteacher.id = uuidv4();
+    const novoProfessor = req.body;
+    novoProfessor.id = uuidv4();
 
-    if (!novoteacher.name) return res.status(400).json({ "erro": "Estudante precisa ter um 'name'" });
-    if (!novoteacher.school_disciplines) return res.status(400).json({ "erro": "Estudante precisa ter um 'school_disciplines'" });
-    if (!novoteacher.contact) return res.status(400).json({ "erro": "Estudante precisa ter um 'contact'" });
-    if (!novoteacher.phone_number) return res.status(400).json({ "erro": "Estudante precisa ter um 'phone_number'" });
-    if (!novoteacher.status) return res.status(400).json({ "erro": "Estudante precisa ter um 'status'" });
+    if (!novoProfessor.name) return res.status(400).json({ "erro": "Professor precisa ter um 'name'" });
+    if (!novoProfessor.school_disciplines) return res.status(400).json({ "erro": "Professor precisa ter um 'school_disciplines'" });
+    if (!novoProfessor.contact) return res.status(400).json({ "erro": "Professor precisa ter um 'contact'" });
+    if (!novoProfessor.phone_number) return res.status(400).json({ "erro": "Professor precisa ter um 'phone_number'" });
+    if (!novoProfessor.status) return res.status(400).json({ "erro": "Professor precisa ter um 'status'" });
 
     const teacherFormatted = {
-        id: novoteacher.id,
-        name: novoteacher.name,
-        school_disciplines: novoteacher.school_disciplines,
-        contact: novoteacher.contact,
-        phone_number: novoteacher.phone_number,
-        status: novoteacher.status
+        id: novoProfessor.id,
+        name: novoProfessor.name,
+        school_disciplines: novoProfessor.school_disciplines,
+        contact: novoProfessor.contact,
+        phone_number: novoProfessor.phone_number,
+        status: novoProfessor.status
     };
 
     teachersDB.push(teacherFormatted);
     fs.writeFileSync(filePath, JSON.stringify(teachersDB, null, 2), 'utf8');  
-    return res.json({ "sucesso": "Estudante cadastrado com sucesso", "id": novoteacher.id });
+    return res.json({ "sucesso": "Professor cadastrado com sucesso", "id": novoProfessor.id });
 });
 
 /**
@@ -124,11 +124,11 @@ router.post('/', (req, res) => {
  * /teachers/{id}:
  *   put:
  *     tags: [Teachers]
- *     summary: Substitui um usuário existente
+ *     summary: Substitui um professor existente
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID do usuário
+ *         description: ID do professor
  *         required: true
  *         schema:
  *           type: string
@@ -153,31 +153,31 @@ router.post('/', (req, res) => {
  *                 type: string
  *     responses:
  *       200:
- *         description: Usuário substituído com sucesso
+ *         description: Professor substituído com sucesso
  *       404:
- *         description: Usuário não encontrado
+ *         description: Professor não encontrado
  *       400:
- *         description: Erro na validação do usuário
+ *         description: Erro na validação do professor
  */
 router.put('/:id', (req, res) => {
     const id = req.params.id;
-    const novoteacher = req.body;
+    const novoProfessor = req.body;
 
     const teachersIndex = teachersDB.findIndex(teacher => teacher.id === id);
 
     if (teachersIndex === -1) {
-        return res.status(404).json({ "erro": "Usuário não encontrado" });
+        return res.status(404).json({ "erro": "Professor não encontrado" });
     }
 
-    if (!novoteacher.id) return res.status(400).json({ "erro": "Usuário precisa ter um 'id'" });
-    if (!novoteacher.name) return res.status(400).json({ "erro": "Usuário precisa ter um 'name'" });
-    if (!novoteacher.school_disciplines) return res.status(400).json({ "erro": "Usuário precisa ter um 'school_disciplines'" });
-    if (!novoteacher.contact) return res.status(400).json({ "erro": "Usuário precisa ter um 'contact'" });
-    if (!novoteacher.phone_number) return res.status(400).json({ "erro": "Usuário precisa ter uma 'phone_number'" });
-    if (!novoteacher.status) return res.status(400).json({ "erro": "Usuário precisa ter um 'status'" });
+    if (!novoProfessor.id) return res.status(400).json({ "erro": "Professor precisa ter um 'id'" });
+    if (!novoProfessor.name) return res.status(400).json({ "erro": "Professor precisa ter um 'name'" });
+    if (!novoProfessor.school_disciplines) return res.status(400).json({ "erro": "Professor precisa ter um 'school_disciplines'" });
+    if (!novoProfessor.contact) return res.status(400).json({ "erro": "Professor precisa ter um 'contact'" });
+    if (!novoProfessor.phone_number) return res.status(400).json({ "erro": "Professor precisa ter um 'phone_number'" });
+    if (!novoProfessor.status) return res.status(400).json({ "erro": "Professor precisa ter um 'status'" });
 
-    teachersDB[teachersIndex] = novoteacher;
-    res.json(novoteacher);
+    teachersDB[teachersIndex] = novoProfessor;
+    res.json(novoProfessor);
 });
 
 /**
@@ -185,29 +185,29 @@ router.put('/:id', (req, res) => {
  * /teachers/{id}:
  *   delete:
  *     tags: [Teachers]
- *     summary: Deleta um usuário existente
+ *     summary: Deleta um professor existente
  *     parameters:
  *       - name: id
  *         in: path
- *         description: ID do usuário
+ *         description: ID do professor
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Usuário deletado com sucesso
+ *         description: Professor deletado com sucesso
  *       404:
- *         description: Usuário não encontrado
+ *         description: Professor não encontrado
  */
 router.delete('/:id', (req, res) => {
     const id = req.params.id;
 
     const teachersIndex = teachersDB.findIndex(teacher => teacher.id === id);
 
-    if (teachersIndex === -1) return res.status(404).json({ "erro": "Usuário não encontrado" });
+    if (teachersIndex === -1) return res.status(404).json({ "erro": "Professor não encontrado" });
 
     teachersDB.splice(teachersIndex, 1);
-    res.json({ "mensagem": "Usuário deletado com sucesso." });
+    res.json({ "mensagem": "Professor deletado com sucesso." });
 });
 
 module.exports = router;
