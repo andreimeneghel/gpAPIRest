@@ -15,6 +15,49 @@ let professionalDB = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Professional:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         nome:
+ *           type: string
+ *         especialidade:
+ *           type: string
+ *         contact:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     ProfessionalCreate:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *         especialidade:
+ *           type: string
+ *         contact:
+ *           type: string
+ *         status:
+ *           type: string
+ * 
+ *     ProfessionalUpdate:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *         especialidade:
+ *           type: string
+ *         contact:
+ *           type: string
+ *         status:
+ *           type: string
+ */
+
+/**
+ * @swagger
  * /professionals:
  *   get:
  *     tags: [Professionals]
